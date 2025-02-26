@@ -1,6 +1,8 @@
 node_modules/
 *.env
-.eslint.json
+.eslintrc.json
 .prettierrc
 task update.txt
 dev-data/
+.idea/
+.cache/

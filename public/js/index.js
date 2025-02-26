@@ -10,6 +10,8 @@ env.config({ path: `${__dirname}/../../config.env` });
 console.log(env, process);
 console.log(process.env, __dirname, __filename);
 
+console.log(process.env);
+
 //=>
 // Loading this right away because googleMap.js need this before executing
 loadGoogleMaps({
