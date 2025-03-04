@@ -25,9 +25,11 @@ console.log(process.env.NODE_ENV, 'from app.js');
 app.use(
   cors({
     credentials: true,
-    origin: true,
-  }),
+    origin: '*'
+  })
 );
+
+app.enable('trust proxy');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -92,7 +94,7 @@ const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
   message:
-    'Too many requests from this IP, please wait for a few hour before you log in again',
+    'Too many requests from this IP, please wait for a few hour before you log in again'
 });
 app.use('/api', limiter);
 
@@ -117,9 +119,9 @@ app.use(
       'ratingsQuantity',
       'ratingsQuantity',
       'difficulty',
-      'price',
-    ],
-  }),
+      'price'
+    ]
+  })
 );
 
 //=>

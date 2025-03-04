@@ -54336,7 +54336,7 @@ var login = exports.login = /*#__PURE__*/function () {
           _context.next = 3;
           return (0, _axios.default)({
             method: 'post',
-            url: 'http://127.0.0.1:8000/api/v1/users/login',
+            url: '/api/v1/users/login',
             data: {
               email: email,
               password: password
@@ -54377,7 +54377,7 @@ var logout = exports.logout = /*#__PURE__*/function () {
           _context2.next = 3;
           return (0, _axios.default)({
             method: 'GET',
-            url: 'http://127.0.0.1:8000/api/v1/users/logout'
+            url: '/api/v1/users/logout'
           });
         case 3:
           res = _context2.sent;
@@ -54537,7 +54537,7 @@ var changeUserData = exports.changeUserData = /*#__PURE__*/function () {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          url = type === 'password' ? 'http://127.0.0.1:8000/api/v1/users/update-password' : 'http://127.0.0.1:8000/api/v1/users/update-info';
+          url = type === 'password' ? '/api/v1/users/update-password' : '/api/v1/users/update-info';
           _context.next = 4;
           return (0, _axios.default)({
             method: 'patch',
@@ -54719,6 +54719,7 @@ _dotenv.default.config({
 });
 console.log(_dotenv.default, process);
 console.log(process.env, __dirname, __filename);
+console.log(process.env);
 
 //=>
 // Loading this right away because googleMap.js need this before executing
@@ -54739,7 +54740,7 @@ var userPasswordForm = document.querySelector('.form-user-password');
 
 //label
 // Variables
-var mapApiType = 'Google';
+var mapApiType = 'Mapbox';
 
 //label
 // Calling the methods when needed
@@ -54877,7 +54878,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49697" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50549" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
