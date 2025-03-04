@@ -9,6 +9,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const userRouter = require('./routes/userRoutes');
 const tourRouter = require('./routes/tourRoutes');
@@ -80,6 +81,8 @@ app.use(express.static(`${__dirname}/public`));
 
 //check cookies
 app.use(cookieParser());
+
+app.use(compression());
 
 //Development logging (logs)
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));

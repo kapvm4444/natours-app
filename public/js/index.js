@@ -31,7 +31,7 @@ const userPasswordForm = document.querySelector('.form-user-password');
 
 //label
 // Variables
-const mapApiType = 'Google';
+const mapApiType = 'Mapbox';
 
 //label
 // Calling the methods when needed
