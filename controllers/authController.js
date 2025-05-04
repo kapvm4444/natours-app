@@ -5,14 +5,13 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const Email = require('./../utils/email');
 const jwt = require('jsonwebtoken');
-const { decode } = require('jsonwebtoken');
 
 //Label
 // utility methods
 //creating a token [JWT Token]
 const getJWTToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE
+    expiresIn: process.env.JWT_EXPIRE,
   });
 };
 
@@ -20,10 +19,10 @@ const createSendToken = (user, statusCode, req, res) => {
   const token = getJWTToken(user._id);
   const cookieOptions = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
-    secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   };
 
   //send the cookie with 'res' object
@@ -32,7 +31,7 @@ const createSendToken = (user, statusCode, req, res) => {
   res.status(statusCode).json({
     status: 'success',
     token,
-    user
+    user,
   });
 };
 
@@ -62,7 +61,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email }).select('+password');
 
   if (!user || !(await user.checkPassword(password, user.password)))
-    return next(new AppError('Email or Password incorrect'), 401);
+    return next(new AppError('Email or Password incorrect', 401));
 
   //3. provide the jwt token
   createSendToken(user, 200, req, res);
@@ -85,14 +84,14 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         'User belong to this Token is no longer exist, please log in again',
-        401
-      )
+        401,
+      ),
     );
 
   //4. check if user changed the password after the token was issued
   if (currentUser.isPasswordChangedAfter(decoded.iat))
     return next(
-      new AppError('User Changed the password, please log in again', 401)
+      new AppError('User Changed the password, please log in again', 401),
     );
 
   //Grant access to the protected content now
@@ -110,7 +109,7 @@ exports.isLoggedIn = async (req, res, next) => {
       // 2. Verification of token
       const decoded = await promisify(jwt.verify)(
         req.cookies.jwt,
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       );
 
       //3. check if user still exist
@@ -137,7 +136,7 @@ exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role))
       return next(
-        new AppError('You are not authorized to use this resource', 403)
+        new AppError('You are not authorized to use this resource', 403),
       );
 
     next();
@@ -163,7 +162,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message:
-        'Token is sent through email, check your inbox and also spam folder'
+        'Token is sent through email, check your inbox and also spam folder',
     });
   } catch (e) {
     user.passwordResetExpires = undefined;
@@ -173,8 +172,8 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         'There was an error sending the email, please try again later',
-        500
-      )
+        500,
+      ),
     );
   }
 });
@@ -190,7 +189,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   const user = await User.findOne({
     passwordResetToken: HashedResetToken,
-    passwordResetExpires: { $gt: Date.now() }
+    passwordResetExpires: { $gt: Date.now() },
   });
   if (!user) return next(new AppError('Token is Expired or invalid', 400));
 
@@ -232,7 +231,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 exports.logout = (req, res) => {
   res.cookie('jwt', 'LoggedOut', {
     expires: new Date(Date.now() + 5 * 1000),
-    httpOnly: true
+    httpOnly: true,
   });
 
   res.status(200).json({ status: 'success' });

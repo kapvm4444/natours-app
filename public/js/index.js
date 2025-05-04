@@ -1,22 +1,15 @@
 import '@babel/polyfill';
-import env from 'dotenv';
 import { loadGoogleMaps } from './loadGoogleMaps';
 import { login, logout } from './login';
 import { setGoogleMap } from './googleMap';
 import { setMapboxMap } from './mapboxMap';
 import { changeUserData } from './updateSettings';
 
-env.config({ path: `${__dirname}/../../config.env` });
-console.log(env, process);
-console.log(process.env, __dirname, __filename);
-
-console.log(process.env);
-
 //=>
 // Loading this right away because googleMap.js need this before executing
 loadGoogleMaps({
   key: 'AIzaSyBQTySjU1pXeQ7tp_u5V8x4woGztpRlrAg',
-  v: 'weekly',
+  v: 'weekly'
   // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
   // Add other bootstrap parameters as needed, using camel case.
 });
@@ -94,7 +87,7 @@ if (userPasswordForm) {
     evt.preventDefault();
     await changeUserData(
       { currentPassword, newPassword, newPasswordConfirm },
-      'password',
+      'password'
     );
 
     document.getElementById('password-current').value = '';
